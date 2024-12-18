@@ -1,0 +1,8 @@
+[submodule "eliborate"]
+	path = eliborate
+	url = https://github.com/CreakZ/eliborate
+	branch = develop
+[submodule "bootch"]
+	path = bootch
+	url = https://github.com/CreakZ/bootch
+	branch = develop
