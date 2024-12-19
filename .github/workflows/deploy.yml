@@ -35,6 +35,3 @@ jobs:
 
       - name: Generate .env file for eliborate
         run: cp eliborate/configs/.example.env eliborate/configs/.env
-
-      - name: Build and deploy with Docker Compose
-        run: docker compose up --build -d
