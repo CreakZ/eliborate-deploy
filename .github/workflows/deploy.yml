@@ -13,30 +13,21 @@ on:
       - develop
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
 
-      - name: Setup Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.23.4'
-
-      - name: Run tests in eliborate
-        working-directory: ./eliborate
+      - name: Generate configuration for bootch
         run: |
-          go mod tidy
-          go test ./...
+          echo "memcached_host: memcached" > bootch/cfg.yaml
+          echo "memcached_port: 11211" >> bootch/cfg.yaml
+          echo "cache_expiration: 200000" >> bootch/cfg.yaml
 
-      - name: Deploy application
-        run: |
-          echo "Starting deployment"
+      - name: Generate .env file for eliborate
+        run: cp eliborate/configs/.example.env eliborate/configs/.env
 
-          docker compose -f docker-compose.yaml build
-          docker compose -f docker-compose.yaml up -d
+      - name: Build and deploy with Docker Compose
+        run: docker compose up --build -d
