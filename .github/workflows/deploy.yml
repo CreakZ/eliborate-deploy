@@ -19,6 +19,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Update submodules (fallback in case of manual cloning)
+        run: |
+          git submodule sync
+          git submodule update --init --recursive
 
       - name: Generate configuration for bootch
         run: |
